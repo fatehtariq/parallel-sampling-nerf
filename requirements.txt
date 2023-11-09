@@ -4,3 +4,7 @@ transformers
 accelerate
 xformers
 pandas
+numpy
+imageio
+scikit-image
+imageio
