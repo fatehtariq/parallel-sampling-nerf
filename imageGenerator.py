@@ -2,6 +2,7 @@ import torch
 from diffusers import DDPMParallelScheduler
 from diffusers import StableDiffusionParadigmsPipeline
 import os
+from torchvision.transforms import ToTensor
 from torchvision.utils import save_image
 
 
@@ -17,6 +18,10 @@ def get_images_from_diffusion(prompt):
 
     image_list = pipe(prompt, parallel=ngpu * batch_per_device, num_inference_steps=1000).images
 
+    # Convert PIL images to tensors
+    to_tensor = ToTensor()
+    image_list = [to_tensor(image) for image in image_list]
+
     # Create the output directory if it doesn't exist
     os.makedirs('/image_list', exist_ok=True)
 
@@ -24,5 +29,8 @@ def get_images_from_diffusion(prompt):
     for i, image in enumerate(image_list):
         image_path = os.path.join('/image_list', f"image_{i:04d}.png")
         save_image(image, image_path)
+
+    print('[INFO] Number of images created: ', len(image_list))
+    print('[INFO] Saving images...')
 
     return image_list
