@@ -27,7 +27,7 @@ def get_images_from_diffusion(prompt):
 
     # Save the images to the output directory
     for i, image in enumerate(image_list):
-        image_path = os.path.join('/image_list', f"image_{i:04d}.png")
+        image_path = os.path.join('/scenedir/images', f"image_{i:04d}.png")
         save_image(image, image_path)
 
     print('[INFO] Number of images created: ', len(image_list))
